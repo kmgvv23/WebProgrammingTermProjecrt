@@ -1,0 +1,75 @@
+<%- include('partials/header') %>
+
+<div class="container mt-4">
+  <h2 class="mb-3"><%= study.title %> - 글쓰기</h2>
+
+  <form action="/studies/<%= study.id %>/board" method="POST">
+    <div class="mb-3">
+      <label for="title" class="form-label">제목</label>
+      <div class="input-group">
+        <input type="text" id="title" name="title" class="form-control" required>
+        <button type="button" id="btn-topic" class="btn btn-outline-secondary">
+          AI 토론 주제 추천
+        </button>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="content" class="form-label">내용</label>
+      <textarea id="content" name="content" rows="10" class="form-control" required></textarea>
+    </div>
+
+    <div class="d-flex justify-content-between">
+      <a href="/studies/<%= study.id %>/board" class="btn btn-outline-secondary">
+        목록으로
+      </a>
+      <button type="submit" class="btn btn-primary">등록</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  // 📌 토론 주제 추천 버튼 -> Gemini 호출 라우트
+  document.getElementById('btn-topic')?.addEventListener('click', async () => {
+    const btn = document.getElementById('btn-topic');
+    btn.disabled = true;
+    btn.textContent = '생성 중...';
+
+    try {
+      const res = await fetch('/studies/<%= study.id %>/ai/topics', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      if (!res.ok) {
+        alert('토론 주제 생성 실패');
+        btn.disabled = false;
+        btn.textContent = 'AI 토론 주제 추천';
+        return;
+      }
+
+      const data = await res.json();
+      const topics = data.topics || [];
+
+      if (topics.length === 0) {
+        alert('생성된 토론 주제가 없습니다.');
+      } else {
+        const titleInput = document.getElementById('title');
+        const contentArea = document.getElementById('content');
+
+        // 첫 번째 주제를 제목에, 전체 리스트를 내용 앞부분에 추가
+        titleInput.value = topics[0];
+        const prefix = '📌 AI 추천 토론 주제:\n' + topics.map((t, i) => `${i+1}. ${t}`).join('\n') + '\n\n';
+        contentArea.value = prefix + contentArea.value;
+      }
+    } catch (e) {
+      console.error(e);
+      alert('요청 중 오류가 발생했습니다.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'AI 토론 주제 추천';
+    }
+  });
+</script>
+
+<%- include('partials/footer') %>

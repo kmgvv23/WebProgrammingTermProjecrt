@@ -1,0 +1,32 @@
+
+body {
+  /* 기본 폰트 변경 (Bootstrap 기본값 대신) */
+  font-family: 'Noto Sans KR', sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #fcfcfc; /* (선택) 기본 배경색을 살짝 변경 */
+}
+
+/* 네비게이션 바 커스텀 */
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+/* study-detail.html, summary.html에서 줄바꿈을 유지하기 위한 클래스 */
+.text-pre-wrap {
+  white-space: pre-wrap;
+  word-wrap: break-word; /* 긴 줄 자동 줄바꿈 */
+}
+
+/* 스터디 카드에 그림자 효과 추가 */
+.card {
+  transition: box-shadow 0.2s ease-in-out;
+}
+.card:hover {
+  box-shadow: 0 .4rem 1rem rgba(0,0,0,.1);
+  transform: translateY(-2px);
+}
+
+/* 알라딘 API 검색 버튼 (study-form.html) */
+#book-search-btn {
+  font-weight: 500;
+}

@@ -1,0 +1,75 @@
+/*
+ * 📚 온라인 독서 소모임 - 공통 스타일 시트
+ */
+
+body {
+  font-family: 'Noto Sans KR', sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #fcfcfc;
+}
+
+.icon-png {
+  width: 30px; 
+  height: 30px;
+  margin-right: 15px;
+}
+.icon-png-small {
+  width: 15px; 
+  height: 15px;
+  margin-right: 5px;
+}
+
+/* 요일 선택 토글 */
+.day-btn-wrapper .btn-check:not(:checked) + .btn-outline-dark {
+    background-color: #fff;
+}
+
+/* 줄바꿈 유지 유틸리티 */
+.text-pre-wrap {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* 스터디 카드 호버 효과 */
+.card {
+  transition: box-shadow 0.2s ease-in-out;
+}
+.card:hover {
+  box-shadow: 0 .4rem 1rem rgba(0,0,0,.1);
+  transform: translateY(-2px);
+}
+
+/* 알라딘 API 검색 버튼 */
+#book-search-btn {
+  font-weight: 500;
+}
+
+/* =========================================
+   레이아웃 (사이드바 + 콘텐츠) 스타일
+   ========================================= */
+
+/* 네비게이션 바 커스텀 */
+.navbar {
+  background-color: #212529; /* bs-dark */
+  color: #fff;
+}
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.4rem;
+  color:#fff;
+}
+.brand-subtitle {
+    font-size: 0.9rem;
+    font-weight: normal;
+    color: #9b9b9b;
+    vertical-align: 15%;  /* 수직 정렬 맞추기 */
+}
+.icon-png-nav {
+  width: 30px; 
+  height: 30px;
+  margin-right: 15px;
+  color:#fff;
+}
+.nav-link {
+  color: #fcfcfc;
+}
+

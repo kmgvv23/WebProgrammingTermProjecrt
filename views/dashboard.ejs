@@ -1,0 +1,36 @@
+<%- include('partials/header') %>
+
+<div class="container mt-4">
+
+  <h2 class="fw-bold mb-4">내가 가입한 스터디</h2>
+
+  <% if (!myStudies || myStudies.length === 0) { %>
+    <div class="alert alert-info">
+      아직 가입한 스터디가 없습니다.
+      <a href="/studies" class="alert-link">스터디 둘러보기</a>
+    </div>
+  <% } else { %>
+    <div class="row">
+      <% myStudies.forEach(study => { %>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h4 class="card-title"><%= study.title %></h4>
+              <p class="card-text text-muted"><%= study.description %></p>
+
+              <p class="small">
+                <strong>요일:</strong> <%= study.day %><br>
+                <strong>정원:</strong> <%= study.maxMembers %>명
+              </p>
+
+              <a href="/studies/<%= study.id %>/room" class="btn btn-primary w-100">입장하기</a>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+
+</div>
+
+<%- include('partials/footer') %>

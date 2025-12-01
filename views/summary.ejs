@@ -1,0 +1,96 @@
+<% const pageTitle = '요약 및 토론'; %>
+<%- include('partials/header') %>
+
+
+<% if (typeof study !== 'undefined' && typeof book !== 'undefined') { %>
+<h1><%= study.title %></h1>
+<h4>📖 토론 도서: <%= book.title %></h4>
+<hr>
+
+<div class="row">
+    <!-- 요약 등록 폼 -->
+    <div class="col-md-5">
+        <h5>내 요약/감상 등록하기</h5>
+        <form action="/summary-process" method="POST">
+            <div class="mb-3">
+                <label for="summary-chapter" class="form-label">챕터 또는 범위</label>
+                <input type="text" class="form-control" id="summary-chapter" name="chapter" placeholder="예: 1장 ~ 3장">
+            </div>
+            <div class="mb-3">
+                <label for="summary-content" class="form-label">내용 요약 및 감상</label>
+                <textarea class="form-control" id="summary-content" name="content" rows="15" required></textarea>
+            </div>
+            
+            <div class="mb-3">
+                <button type="button" class="btn btn-outline-info btn-sm" id="ai-topic-btn">💡 AI 토론 주제 추천받기</button>
+            </div>
+            
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">등록하기</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- 다른 멤버 요약 보기 (아코디언 예시) -->
+    <div class="col-md-7">
+        <h5>멤버들의 요약 보기</h5>
+        <div class="accordion" id="summaryAccordion">
+
+        <!-- 예시 요약 1 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading-1">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-1">
+                    <strong>1장. 꿀을 얻으려면 벌통을 걷어차지 마라</strong> (작성자: 배지우)
+                </button>
+            </h2>
+            <div id="collapse-1" class="accordion-collapse collapse show" data-bs-parent="#summaryAccordion">
+                <!-- (수정) style 속성 대신 .text-pre-wrap 클래스 사용 -->
+                <div class="accordion-body text-pre-wrap">
+                    비판이나 비난은 아무 소용없다는 내용이 인상 깊었습니다.
+                    사람들은 잘못을 저질러도 자신을 정당화하기 마련이기 때문입니다.
+                </div>
+            </div>
+        </div>
+
+          <!-- 예시 요약 2 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading-2">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-2">
+                    <strong>2장. 칭찬은 무쇠도 녹인다</strong> (작성자: 정의진)
+                </button>
+            </h2>
+            <div id="collapse-2" class="accordion-collapse collapse" data-bs-parent="#summaryAccordion">
+                <div class="accordion-body text-pre-wrap">
+                    솔직하고 진심 어린 칭찬의 중요성을 깨달았습니다.
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </div>
+</div>
+
+<% } else { %>
+  <h1 class="text-center">스터디 정보를 찾을 수 없습니다.</h1>
+<% } %>
+
+<!-- 페이지 고유 스크립트 -->
+<script>
+  document.getElementById('ai-topic-btn').addEventListener('click', () => {
+    const content = document.getElementById('summary-content').value;
+    alert('AI 토론 주제 추천 기능은 Node.js 서버 구현이 필요합니다.');
+    
+    // (구현 예시)
+    // fetch('/ai-recommend-topic', { 
+    //   method: 'POST', 
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ content: content })
+    // })
+    // .then(res => res.json())
+    // .then(data => {
+    //   alert("추천 주제: " + data.topic);
+    // });
+  });
+</script>
+
+<%- include('partials/footer') %>

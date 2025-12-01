@@ -1,0 +1,13 @@
+# Node
+node_modules/
+npm-debug.log
+
+# Environment
+.env
+.env.*
+
+# System
+.DS_Store
+
+# Sessions?
+sessions/

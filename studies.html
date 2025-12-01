@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>스터디 찾기 - 📚 온라인 독서 소모임</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+      <a class="navbar-brand" href="studies.html">📚 온라인 독서 소모임</a>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="studies.html">스터디 찾기</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="study-form.html">스터디 만들기</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="mypage.html">마이페이지</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="login.html">로그인</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- === 본문 내용 === -->
+  <main class="container">
+    <div class="mb-4 p-4 bg-light rounded-3">
+      <h2>스터디 찾기</h2>
+      <p>관심 있는 주제의 독서 모임에 참여해보세요.</p>
+      
+      <form action="/search-process" method="GET" class="row g-3 align-items-end">
+        <div class="col-md-5">
+          <label for="search-keyword" class="form-label">주제 (책, 스터디 제목)</label>
+          <input type="text" class="form-control" id="search-keyword" name="keyword">
+        </div>
+        <div class="col-md-3">
+          <label for="search-day" class="form-label">관심 요일</label>
+          <select id="search-day" class="form-select" name="day">
+            <option value="">전체</option>
+            <option value="mon">월</option>
+            <option value="tue">화</option>
+            <option value="wed">수</option>
+            <option value="thu">목</option>
+            <option value="fri">금</option>
+            <option value="sat">토</option>
+            <option value="sun">일</option>
+          </select>
+        </div>
+        <div class="col-md-2 d-grid">
+          <button type="submit" class="btn btn-primary">검색</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- 스터디 목록 (정적 예시 데이터) -->
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      
+      <!-- 예시 카드 1 -->
+      <div class="col">
+        <div class="card h-100"> <!-- card-hover 클래스는 style.css에 정의됨 -->
+          <img src="https://image.aladin.co.kr/product/1935/21/cover/8932918826_1.jpg" class="card-img-top" alt="책 표지">
+          <div class="card-body">
+            <h5 class="card-title">데일 카네기 인간관계론 스터디</h5>
+            <p class="card-text">매주 1회 비동기 요약 및 감상 공유합니다. 함께 성장해요!</p>
+            <span class="badge bg-secondary mb-2">자기계발</span>
+          </div>
+          <div class="card-footer">
+            <a href="studies-detail.html" class="btn btn-outline-primary btn-sm">상세보기</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 예시 카드 2 -->
+      <div class="col">
+        <div class="card h-100">
+          <img src="https://image.aladin.co.kr/product/33845/2/cover/k842938833_1.jpg" class="card-img-top" alt="책 표지">
+          <div class="card-body">
+            <h5 class="card-title">Node.js 교과서 읽기</h5>
+            <p class="card-text">웹 프로젝트 과제 함께 하실 분? 매주 온라인으로 진행합니다.</p>
+            <span class="badge bg-success mb-2">IT/개발</span>
+          </div>
+          <div class="card-footer">
+            <a href="studies-detail.html" class="btn btn-outline-primary btn-sm">상세보기</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+  <!-- === 본문 끝 === -->
+
+  <footer class="text-center text-muted mt-5 mb-3">
+    <p>&copy; 2025 Web Project Team. (배지우, 김민규, 정의진)</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

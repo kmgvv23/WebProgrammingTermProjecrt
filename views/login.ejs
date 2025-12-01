@@ -1,0 +1,107 @@
+<% const pageTitle = '로그인 / 회원가입'; %>
+<%- include('partials/header') %>
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <h1 class="text-center mb-4">로그인 / 회원가입</h1>
+
+        <!-- 에러 메시지 표시 -->
+        <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+            <div class="alert alert-danger text-center">
+                <%= errorMessage %>
+            </div>
+        <% } %>
+
+        <!-- 탭 메뉴 -->
+        <ul class="nav nav-tabs nav-fill mb-3" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button 
+                    class="nav-link <%= activeTab === 'register' ? '' : 'active' %>"
+                    id="login-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#login-panel"
+                    type="button"
+                    role="tab">
+                    로그인
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button 
+                    class="nav-link <%= activeTab === 'register' ? 'active' : '' %>"
+                    id="register-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#register-panel"
+                    type="button"
+                    role="tab">
+                    회원가입
+                </button>
+            </li>
+        </ul>
+
+        <!-- 탭 컨텐츠 -->
+        <div class="tab-content" id="myTabContent">
+
+            <!-- 로그인 폼 -->
+            <div class="tab-pane fade <%= activeTab === 'register' ? '' : 'show active' %>"
+                 id="login-panel" role="tabpanel">
+                <form id="loginForm" action="/auth/login" method="POST">
+                    <div class="mb-3">
+                        <label for="login-email" class="form-label">이메일</label>
+                        <input type="email" class="form-control" id="login-email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="login-password" class="form-label">비밀번호</label>
+                        <input type="password" class="form-control" id="login-password" name="password" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">로그인</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 회원가입 폼 -->
+            <div class="tab-pane fade <%= activeTab === 'register' ? 'show active' : '' %>"
+                 id="register-panel" role="tabpanel">
+                <form id="signupForm" action="/auth/signup" method="POST">
+                    <div class="mb-3">
+                        <label for="register-username" class="form-label">닉네임</label>
+                        <input type="text" class="form-control" id="register-username" name="nickname" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-email" class="form-label">이메일</label>
+                        <input type="email" class="form-control" id="register-email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="register-password" class="form-label">비밀번호</label>
+                        <input type="password" class="form-control" id="register-password" name="password" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">회원가입</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- 클라이언트 측 비밀번호 검사 -->
+<script>
+    document.getElementById('loginForm')?.addEventListener('submit', function(e) {
+        const pw = this.password.value.trim();
+        if (pw.length < 6) {
+            e.preventDefault();
+            alert('비밀번호는 최소 6자리 이상 입력해야 합니다.');
+        }
+    });
+
+    document.getElementById('signupForm')?.addEventListener('submit', function(e) {
+        const pw = this.password.value.trim();
+        if (pw.length < 6) {
+            e.preventDefault();
+            alert('비밀번호는 최소 6자리 이상 입력해야 합니다.');
+        }
+    });
+</script>
+
+<%- include('partials/footer') %>
