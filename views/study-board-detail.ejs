@@ -1,73 +1,193 @@
 <%- include('partials/header') %>
 
-<div class="container mt-4">
-  <!-- 게시글 제목/정보 -->
-  <h2 class="mb-3"><%= post.title %></h2>
-  <p class="text-muted">
-    작성자: <%= post.authorName || '알 수 없음' %><br>
-    작성일: <%= new Date(post.createdAt).toLocaleString('ko-KR') %>
-  </p>
+<style>
+  .board-detail-container {
+    max-width: 900px;
+    margin: 2rem auto;
+  }
 
-  <div class="border rounded p-3 mb-4" style="white-space: pre-line;">
+  .post-header {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  .post-header h2 {
+    color: #2d3748;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .post-meta {
+    color: #718096;
+    font-weight: 500;
+  }
+
+  .post-content {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    border: 2px solid rgba(102, 126, 234, 0.15);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    white-space: pre-line;
+    color: #2d3748;
+    line-height: 1.8;
+  }
+
+  .btn-nav-back {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    display: inline-block;
+  }
+
+  .btn-nav-back:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+    color: white;
+  }
+
+  .btn-nav-home {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3);
+    display: inline-block;
+  }
+
+  .btn-nav-home:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(79, 172, 254, 0.4);
+    color: white;
+  }
+
+  .comment-item {
+    background: white;
+    border: 2px solid rgba(102, 126, 234, 0.15);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .comment-author {
+    font-weight: 700;
+    color: #2d3748;
+  }
+
+  .comment-time {
+    color: #a0aec0;
+    font-size: 0.875rem;
+  }
+
+  .comment-content {
+    color: #4a5568;
+    line-height: 1.6;
+    white-space: pre-line;
+  }
+</style>
+
+<div class="container board-detail-container">
+  <!-- 게시글 제목/정보 -->
+  <div class="post-header">
+    <h2><%= post.title %></h2>
+    <p class="post-meta">
+      작성자: <%= post.authorName || '알 수 없음' %><br>
+      작성일: <%= new Date(post.createdAt).toLocaleString('ko-KR') %>
+    </p>
+  </div>
+
+  <div class="post-content">
     <%= post.content %>
   </div>
 
-  <div class="mb-3">
-    <a href="/studies/<%= study.id %>/board" class="btn btn-outline-secondary btn-sm">
-      ← 게시판 목록으로
+  <div class="mb-4">
+    <a href="/studies/<%= study.id %>/board" class="btn-nav-back me-2">
+      <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 6px; vertical-align: -3px;">
+        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+      </svg>
+      게시판 목록으로
     </a>
-    <a href="/studies/<%= study.id %>/room" class="btn btn-outline-secondary btn-sm">
+    <a href="/studies/<%= study.id %>/room" class="btn-nav-home">
+      <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 6px; vertical-align: -3px;">
+        <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z"/>
+      </svg>
       스터디 홈으로
     </a>
   </div>
 
-  <hr>
+  <hr style="border-color: rgba(102, 126, 234, 0.2); margin: 2rem 0;">
 
   <!-- 🔹 댓글 목록 -->
-  <h5 class="mt-4">댓글</h5>
+  <h5 class="mt-4 mb-3" style="color: #2d3748; font-weight: 700;">💬 댓글</h5>
 
-  <div class="mb-3">
+  <div class="mb-4">
     <% if (comments && comments.length > 0) { %>
       <% comments.forEach(function(c) { %>
-        <div class="border rounded p-2 mb-2">
-          <div class="d-flex justify-content-between align-items-center">
+        <div class="comment-item">
+          <div class="comment-header">
             <div>
-              <strong><%= c.nickname || '알 수 없음' %></strong>
-              <small class="text-muted">(<%= c.createdAtFormatted %>)</small>
+              <span class="comment-author"><%= c.nickname || '알 수 없음' %></span>
+              <span class="comment-time ms-2">(<%= c.createdAtFormatted %>)</span>
             </div>
             <% if (currentUserId && c.userId === currentUserId) { %>
               <form action="/studies/<%= study.id %>/board/<%= post.id %>/comments/<%= c.id %>/delete"
                     method="POST"
                     style="display:inline;">
                 <button type="submit"
-                        class="btn btn-sm btn-outline-danger"
+                        class="btn btn-sm"
+                        style="background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%); color: white; border: none; padding: 0.4rem 1rem; border-radius: 8px; font-weight: 600;"
                         onclick="return confirm('댓글을 삭제하시겠습니까?');">
                   삭제
                 </button>
               </form>
             <% } %>
           </div>
-          <div style="white-space: pre-line;" class="mt-1">
+          <div class="comment-content">
             <%= c.content %>
           </div>
         </div>
       <% }); %>
     <% } else { %>
-      <div class="text-muted">아직 댓글이 없습니다. 첫 댓글을 남겨보세요!</div>
+      <div class="text-center p-4" style="background: rgba(102, 126, 234, 0.05); border-radius: 12px; color: #718096;">
+        아직 댓글이 없습니다. 첫 댓글을 남겨보세요!
+      </div>
     <% } %>
   </div>
 
   <!-- 🔹 댓글 작성 폼 -->
-  <h5 class="mt-4">댓글 작성</h5>
+  <h5 class="mt-4 mb-3" style="color: #2d3748; font-weight: 700;">✍️ 댓글 작성</h5>
   <form action="/studies/<%= study.id %>/board/<%= post.id %>/comments" method="POST">
     <div class="mb-3">
       <textarea name="content"
                 class="form-control"
                 rows="3"
                 placeholder="댓글을 입력하세요..."
+                style="border: 2px solid #e2e8f0; border-radius: 12px; padding: 1rem; font-size: 1rem;"
                 required></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">댓글 등록</button>
+    <button type="submit" class="btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 0.75rem 2rem; border-radius: 12px; font-weight: 600; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
+      댓글 등록
+    </button>
   </form>
 </div>
 

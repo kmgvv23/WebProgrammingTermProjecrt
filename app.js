@@ -115,13 +115,16 @@ app.get('/mypage', requireLogin, async (req, res) => {
 
   try {
     const [myStudies] = await pool.query(`
-      SELECT 
+      SELECT
         id,
         title,
         description,
         max_members AS maxMembers,
         day,
-        created_at AS createdAt
+        created_at AS createdAt,
+        book_cover_url AS bookCoverUrl,
+        book_title AS bookTitle,
+        book_author AS bookAuthor
       FROM studies
       WHERE creator_id = ?
       ORDER BY created_at DESC

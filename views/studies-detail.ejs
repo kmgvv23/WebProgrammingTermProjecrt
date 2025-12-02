@@ -1,100 +1,223 @@
 <%- include('partials/header') %>
 
-<div class="row mb-4">
-  <div class="col-md-4">
-    <% if (study.bookCoverUrl) { %>
-      <img src="<%= study.bookCoverUrl %>" class="img-fluid rounded" alt="책 표지">
-    <% } else { %>
-      <div class="bg-light border rounded d-flex align-items-center justify-content-center"
-           style="width:100%; height:300px;">
-        <span class="text-muted">책 표지 없음</span>
-      </div>
-    <% } %>
-  </div>
+<style>
+  .study-detail-container {
+    max-width: 1100px;
+    margin: 2rem auto;
+  }
 
-  <div class="col-md-8">
-    <h1 class="mb-3"><%= study.title %></h1>
+  .study-detail-header {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
 
-    <% if (study.bookTitle) { %>
-      <p class="text-muted mb-1">📚 <strong><%= study.bookTitle %></strong></p>
-    <% } %>
-    <% if (study.bookAuthor) { %>
-      <p class="text-muted mb-3">✍️ <%= study.bookAuthor %></p>
-    <% } %>
+  .book-cover-detail {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
 
-    <p class="mb-2">
-      <% if (study.day) { %>
-        <span class="badge bg-secondary">
-          요일:
-          <% if (study.day === 'mon') { %>월<% } %>
-          <% if (study.day === 'tue') { %>화<% } %>
-          <% if (study.day === 'wed') { %>수<% } %>
-          <% if (study.day === 'thu') { %>목<% } %>
-          <% if (study.day === 'fri') { %>금<% } %>
-          <% if (study.day === 'sat') { %>토<% } %>
-          <% if (study.day === 'sun') { %>일<% } %>
-        </span>
-      <% } %>
+  .book-cover-detail img {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+  }
 
-      <% if (study.maxMembers) { %>
-        <span class="badge bg-info text-dark">
-          최대 <%= study.maxMembers %>명
-        </span>
-      <% } %>
-    </p>
+  .study-info-detail {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    border: 2px solid rgba(102, 126, 234, 0.15);
+    border-radius: 16px;
+    padding: 2rem;
+  }
 
-    <p class="text-muted mb-1">
-      개설자: <%= study.creatorName || '알 수 없음' %>
-    </p>
+  .study-info-detail h1 {
+    color: #2d3748;
+    font-weight: 800;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
 
-    <hr>
+  .badge-detail {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+  }
 
-    <!-- 🔥 최종 병합된 버튼 영역: HEAD 기능 + 수정 버튼 -->
-    <div class="mb-3">
+  .btn-action {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    display: inline-block;
+  }
 
-      <% if (!user) { %>
-        <!-- 비로그인 -->
-        <a href="/login" class="btn btn-warning btn-sm">
-          로그인 후 가입 가능합니다
-        </a>
+  .btn-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+    color: white;
+  }
 
-      <% } else if (!isMember) { %>
-        <!-- 아직 가입 안 한 유저 → 가입 버튼 -->
-        <form action="/studies/<%= study.id %>/join" method="POST">
-          <button type="submit" class="btn btn-primary btn-sm">
-            🙋 스터디 가입하기
-          </button>
-        </form>
+  .btn-secondary-action {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3);
+    display: inline-block;
+  }
 
-      <% } else { %>
-        <!-- 이미 가입된 유저 -->
-        <a href="/studies/<%= study.id %>/room" class="btn btn-success btn-sm me-2">
-          ▶ 스터디 홈으로 이동
-        </a>
+  .btn-secondary-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(79, 172, 254, 0.4);
+    color: white;
+  }
 
-        <% if (!isOwner) { %>
-          <!-- 리더가 아닌 멤버만 탈퇴 가능 -->
-          <form action="/studies/<%= study.id %>/leave" method="POST" style="display:inline;">
-            <button type="submit" class="btn btn-outline-danger btn-sm">
-              ❌ 탈퇴하기
-            </button>
-          </form>
+  .description-box {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border-left: 4px solid #667eea;
+    color: #2d3748;
+    line-height: 1.8;
+    white-space: pre-line;
+  }
+</style>
+
+<div class="container study-detail-container">
+  <div class="row mb-4">
+    <div class="col-md-5">
+      <div class="book-cover-detail">
+        <% if (study.bookCoverUrl) { %>
+          <img src="<%= study.bookCoverUrl %>" alt="책 표지">
+        <% } else { %>
+          <div class="bg-light d-flex align-items-center justify-content-center"
+               style="width:100%; height:500px;">
+            <span class="text-muted" style="font-size: 1.2rem; font-weight: 500;">책 표지 없음</span>
+          </div>
         <% } %>
-      <% } %>
-
-      <!-- 🔧 리더만 수정 버튼 추가 (feat/frontend 기능 통합) -->
-      <% if (user && study.creatorId && user.id === study.creatorId) { %>
-        <a href="/studies/<%= study.id %>/edit" class="btn btn-sm btn-outline-secondary ms-2">
-          수정하기
-        </a>
-      <% } %>
-
+      </div>
     </div>
 
-    <h5>스터디 소개 및 규칙</h5>
-    <p style="white-space:pre-line;"><%= study.description %></p>
+    <div class="col-md-7">
+      <div class="study-info-detail">
+        <h1><%= study.title %></h1>
 
-    <a href="/studies" class="btn btn-outline-secondary mt-3">다른 스터디 보러가기</a>
+        <% if (study.bookTitle) { %>
+          <p class="mb-2" style="font-size: 1.2rem;">
+            <strong style="color: #2d3748;">📚 <%= study.bookTitle %></strong>
+          </p>
+        <% } %>
+        <% if (study.bookAuthor) { %>
+          <p class="mb-3" style="font-size: 1rem; color: #718096;">✍️ <%= study.bookAuthor %></p>
+        <% } %>
+
+        <div class="mb-3">
+          <% if (study.day) { %>
+            <span class="badge-detail me-2">
+              요일:
+              <% if (study.day === 'mon') { %>월요일<% } %>
+              <% if (study.day === 'tue') { %>화요일<% } %>
+              <% if (study.day === 'wed') { %>수요일<% } %>
+              <% if (study.day === 'thu') { %>목요일<% } %>
+              <% if (study.day === 'fri') { %>금요일<% } %>
+              <% if (study.day === 'sat') { %>토요일<% } %>
+              <% if (study.day === 'sun') { %>일요일<% } %>
+            </span>
+          <% } %>
+
+          <% if (study.maxMembers) { %>
+            <span class="badge-detail" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+              최대 <%= study.maxMembers %>명
+            </span>
+          <% } %>
+        </div>
+
+        <p style="color: #4a5568; font-weight: 500; font-size: 1.05rem; margin-bottom: 1.5rem;">
+          개설자: <%= study.creatorName || '알 수 없음' %>
+        </p>
+
+        <hr style="border-color: rgba(102, 126, 234, 0.2); margin: 1.5rem 0;">
+
+        <!-- 🔥 최종 병합된 버튼 영역: HEAD 기능 + 수정 버튼 -->
+        <div class="mb-3">
+
+          <% if (!user) { %>
+            <!-- 비로그인 -->
+            <a href="/login" class="btn-action">
+              <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 6px; vertical-align: -3px;">
+                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+              </svg>
+              로그인 후 가입 가능합니다
+            </a>
+
+          <% } else if (!isMember) { %>
+            <!-- 아직 가입 안 한 유저 → 가입 버튼 -->
+            <form action="/studies/<%= study.id %>/join" method="POST" style="display: inline;">
+              <button type="submit" class="btn-action" style="border: none;">
+                🙋 스터디 가입하기
+              </button>
+            </form>
+
+          <% } else { %>
+            <!-- 이미 가입된 유저 -->
+            <a href="/studies/<%= study.id %>/room" class="btn-action me-2">
+              <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 6px; vertical-align: -3px;">
+                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z"/>
+              </svg>
+              스터디 홈으로 이동
+            </a>
+
+            <% if (!isOwner) { %>
+              <!-- 리더가 아닌 멤버만 탈퇴 가능 -->
+              <form action="/studies/<%= study.id %>/leave" method="POST" style="display:inline;">
+                <button type="submit" class="btn" style="background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 600;">
+                  ❌ 탈퇴하기
+                </button>
+              </form>
+            <% } %>
+          <% } %>
+
+          <!-- 🔧 리더만 수정 버튼 추가 (feat/frontend 기능 통합) -->
+          <% if (user && study.creatorId && user.id === study.creatorId) { %>
+            <a href="/studies/<%= study.id %>/edit" class="btn-secondary-action ms-2">
+              <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 6px; vertical-align: -3px;">
+                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+              </svg>
+              수정하기
+            </a>
+          <% } %>
+
+        </div>
+
+        <h5 style="color: #2d3748; font-weight: 700; margin-top: 2rem; margin-bottom: 1rem;">📖 스터디 소개 및 규칙</h5>
+        <div class="description-box">
+          <%= study.description %>
+        </div>
+
+        <a href="/studies" class="btn-secondary-action mt-3">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 6px; vertical-align: -3px;">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+          </svg>
+          다른 스터디 보러가기
+        </a>
+      </div>
+    </div>
   </div>
 </div>
 
