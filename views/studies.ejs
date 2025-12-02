@@ -1,0 +1,146 @@
+<%- include('partials/header') %>
+
+<!-- 상단 영역 -->
+<div class="mb-4 p-4 rounded-3" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); border: 1px solid rgba(102, 126, 234, 0.2);">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <h2 class="mb-0 d-flex align-items-center" style="color: #2d3748; font-weight: 700;">
+            <img src="/images/search.png" alt="검색" class="icon-png">스터디 찾기
+        </h2>
+        <p class="mb-0 d-none d-md-block" style="color: #2d3748; font-weight: 600; font-size: 1.05rem;">
+            관심 있는 주제의 독서 모임에 참여해보세요
+        </p>
+    </div>
+</div>
+
+<!-- 검색 영역 -->
+<div class="mb-4 p-4 rounded-2 border bg-secondary-subtle">
+    <form action="/studies" method="GET" class="row g-3 align-items-end">
+
+        <!-- 키워드 검색 -->
+        <div class="col">
+            <label for="search-keyword" class="form-label ms-1">주제</label>
+            <input type="text" 
+                   class="form-control border border-secondary-subtle"
+                   id="search-keyword"
+                   name="keyword"
+                   value="<%= typeof keyword !== 'undefined' ? keyword : '' %>"
+                   placeholder="책 제목, 스터디 이름 등">
+        </div>
+
+        <!-- 요일 선택 -->
+        <div class="col-md-2">
+            <label for="search-day" class="form-label ms-1">관심 요일</label>
+            <select id="search-day"
+                    class="form-select border-secondary-subtle"
+                    name="day"
+                    style="min-width: 100px;">
+                <option value="" <%= (typeof day === 'undefined' || !day) ? 'selected' : '' %>>전체</option>
+
+                <% const days = [['mon','월'], ['tue','화'], ['wed','수'], ['thu','목'], ['fri','금'], ['sat','토'], ['sun','일']]; %>
+                <% days.forEach(([dVal, dLabel]) => { %>
+                    <option value="<%= dVal %>" <%= (typeof day !== 'undefined' && day === dVal) ? 'selected' : '' %>>
+                        <%= dLabel %>
+                    </option>
+                <% }) %>
+            </select>
+        </div>
+
+        <!-- 검색 버튼 -->
+        <div class="col-md-2 d-grid">
+            <button type="submit" class="btn btn-dark">search</button>
+        </div>
+
+    </form>
+</div>
+
+<!-- 스터디 카드 목록 -->
+<div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+    <% if (studies && studies.length > 0) { %>
+
+        <% studies.forEach(study => { %>
+            <div class="col">
+
+                <!-- 카드 전체 (stretched-link를 위한 position-relative 적용) -->
+                <div class="card h-100 shadow-sm position-relative border border-secondary-subtle" style="overflow: hidden;">
+
+                    <!-- 카드 전체 클릭 가능 -->
+                    <a href="/studies/<%= study.id %>" class="stretched-link">
+                        <span class="visually-hidden">상세보기</span>
+                    </a>
+
+                    <div class="row g-0 h-100">
+
+                        <!-- [왼쪽] 이미지 -->
+                        <div class="col-4 position-relative" style="min-height: 180px;">
+                            <% if (study.bookCoverUrl) { %>
+                                <img src="<%= study.bookCoverUrl %>"
+                                     class="img-fluid h-100 w-100 position-absolute top-0 start-0"
+                                     style="object-fit: contain; background: #f7fafc;"
+                                     alt="책 표지">
+                            <% } else { %>
+                                <div class="d-flex align-items-center justify-content-center h-100 bg-light text-muted small">
+                                    No Image
+                                </div>
+                            <% } %>
+                        </div>
+
+                        <!-- [오른쪽] 정보 -->
+                        <div class="col-8 d-flex flex-column">
+                            <div class="card-body p-3">
+
+                                <% if (study.bookTitle) { %>
+                                    <div class="mb-2">
+                                        <span class="badge bg-dark text-light border text-truncate d-inline-block position-relative"
+                                              style="max-width: 100%; z-index: 2;">
+                                            <%= study.bookTitle %>
+                                        </span>
+                                    </div>
+                                <% } %>
+
+                                <h6 class="card-title fw-bold mb-1 text-truncate ms-1">
+                                    <%= study.title %>
+                                </h6>
+
+                                <p class="card-text text-muted small mb-2 ms-2">
+                                    <%= (study.description || '').length > 40 
+                                            ? study.description.substring(0, 40) + '...'
+                                            : (study.description || '') %>
+                                </p>
+
+                            </div>
+
+                            <!-- 선택한 요일만 표시 -->
+                            <div class="p-3 mt-auto">
+                                <% if (study.day) { %>
+                                    <span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; display: inline-block;">
+                                        <% if (study.day === 'mon') { %>월요일<% } %>
+                                        <% if (study.day === 'tue') { %>화요일<% } %>
+                                        <% if (study.day === 'wed') { %>수요일<% } %>
+                                        <% if (study.day === 'thu') { %>목요일<% } %>
+                                        <% if (study.day === 'fri') { %>금요일<% } %>
+                                        <% if (study.day === 'sat') { %>토요일<% } %>
+                                        <% if (study.day === 'sun') { %>일요일<% } %>
+                                    </span>
+                                <% } %>
+                            </div>
+
+                        </div> <!-- col-8 -->
+
+                    </div> <!-- row -->
+                </div> <!-- card -->
+
+            </div>
+        <% }) %>
+
+    <% } else { %>
+
+        <div class="col-12">
+            <div class="alert alert-secondary text-center py-5">
+                <h4>등록된 스터디가 없습니다.</h4>
+                <p>새로운 스터디를 만들어보세요!</p>
+            </div>
+        </div>
+    <% } %>
+</div>
+
+<%- include('partials/footer') %>

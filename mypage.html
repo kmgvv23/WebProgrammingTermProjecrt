@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>마이페이지 - 📚 온라인 독서 소모임</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+      <a class="navbar-brand" href="studies.html">📚 온라인 독서 소모임</a>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="studies.html">스터디 찾기</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="study-form.html">스터디 만들기</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="mypage.html">마이페이지</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="login.html">로그인</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- === 본문 내용 === -->
+  <main class="container">
+    <h1 class="mb-4">마이페이지</h1>
+    <p><strong>김민규</strong>님, 환영합니다.</p>
+
+    <hr>
+
+    <h3>내가 속한 스터디 목록</h3>
+    <div class="list-group">
+      
+      <a href="study-detail.html" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">데일 카네기 인간관계론 스터디</h5>
+          <small>참여일: 2025-11-01</small>
+        </div>
+        <p class="mb-1">토론 중인 책: 데일 카네기 인간관계론</p>
+        <small>스터디장: 배지우</small>
+        <br>
+        <a href="summary.html" class="btn btn-primary btn-sm mt-2">요약 보러가기</a>
+      </a>
+	  <br>
+      
+      <a href="study-detail.html" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">Node.js 교과서 읽기</h5>
+          <small>참여일: 2025-10-28</small>
+        </div>
+        <p class="mb-1">토론 중인 책: Node.js 교과서</p>
+        <small>스터디장: 정의진</small>
+        <br>
+        <a href="summary.html" class="btn btn-primary btn-sm mt-2">요약 보러가기</a>
+      </a>
+	  <br>
+
+    </div>
+  </main>
+  <!-- === 본문 끝 === -->
+
+  <footer class="text-center text-muted mt-5 mb-3">
+    <p>&copy; 2025 Web Project Team. (배지우, 김민규, 정의진)</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

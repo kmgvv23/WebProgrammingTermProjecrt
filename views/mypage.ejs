@@ -1,0 +1,200 @@
+<%- include('partials/header') %>
+
+<style>
+    .mypage-header {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        border-radius: 16px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border: 1px solid rgba(102, 126, 234, 0.2);
+    }
+
+    .mypage-header h2 {
+        color: #2d3748;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .profile-card {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        margin-bottom: 2rem;
+    }
+
+    .profile-card p {
+        color: #2d3748;
+        font-weight: 500;
+        font-size: 1.05rem;
+    }
+
+    .section-title {
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .section-title h3 {
+        color: #2d3748;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .study-day-badge {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+        display: inline-block;
+    }
+</style>
+
+<div class="container">
+    <!-- Header -->
+    <div class="mypage-header">
+        <h2>
+            <svg width="28" height="28" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 10px; vertical-align: -5px;">
+                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+            </svg>
+            마이페이지
+        </h2>
+    </div>
+
+    <!-- Profile -->
+    <div class="profile-card">
+        <% if (user) { %>
+            <p class="mb-2">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 8px; vertical-align: -3px; color: #667eea;">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                </svg>
+                <strong><%= user.nickname %></strong>
+            </p>
+            <p class="mb-0">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 8px; vertical-align: -3px; color: #4facfe;">
+                    <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/>
+                </svg>
+                <%= user.email %>
+            </p>
+        <% } else { %>
+            <p class="text-muted">로그인이 필요합니다.</p>
+        <% } %>
+
+        <div class="mt-3">
+            <a href="/studies/new" class="btn btn-primary" style="padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 600;">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 6px; vertical-align: -3px;">
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg>
+                새 스터디 만들기
+            </a>
+        </div>
+    </div>
+
+    <!-- Section Title -->
+    <div class="section-title">
+        <h3>
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 8px; vertical-align: -4px;">
+                <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
+            </svg>
+            내가 만든 스터디
+        </h3>
+    </div>
+
+    <!-- Study Cards -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+        <% if (typeof myStudies !== 'undefined' && myStudies && myStudies.length > 0) { %>
+            <% myStudies.forEach(study => { %>
+                <div class="col">
+                    <div class="card h-100 shadow-sm position-relative" style="overflow: hidden; border: none; border-radius: 16px;">
+
+                        <a href="/studies/<%= study.id %>" class="stretched-link">
+                            <span class="visually-hidden">상세보기</span>
+                        </a>
+
+                        <div class="row g-0 h-100">
+                            <!-- Book Cover -->
+                            <div class="col-4 position-relative" style="min-height: 200px;">
+                                <% if (study.bookCoverUrl) { %>
+                                    <img src="<%= study.bookCoverUrl %>"
+                                         class="img-fluid h-100 w-100 position-absolute top-0 start-0"
+                                         style="object-fit: contain; background: #f7fafc;"
+                                         alt="책 표지">
+                                <% } else { %>
+                                    <div class="d-flex align-items-center justify-content-center h-100"
+                                         style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);">
+                                        <svg width="50" height="50" fill="currentColor" viewBox="0 0 16 16" style="color: #667eea; opacity: 0.5;">
+                                            <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
+                                        </svg>
+                                    </div>
+                                <% } %>
+                            </div>
+
+                            <!-- Study Info -->
+                            <div class="col-8 d-flex flex-column">
+                                <div class="card-body p-3">
+
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <% if (study.bookTitle) { %>
+                                            <span class="badge text-truncate d-inline-block"
+                                                  style="max-width: 70%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 0.4rem 0.8rem; border-radius: 8px; font-weight: 600;">
+                                                <%= study.bookTitle %>
+                                            </span>
+                                        <% } else { %>
+                                            <span></span>
+                                        <% } %>
+
+                                        <form action="/studies/<%= study.id %>/delete" method="POST"
+                                              onsubmit="return confirm('이 스터디를 정말 삭제하시겠습니까?');"
+                                              style="z-index: 2; position: relative;">
+                                            <button type="submit" class="btn btn-sm py-0 px-2"
+                                                    style="font-size: 0.8rem; background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%); color: white; border: none; border-radius: 6px; font-weight: 600;">
+                                                삭제
+                                            </button>
+                                        </form>
+                                    </div>
+
+                                    <h6 class="card-title fw-bold mb-1 text-truncate" style="color: #2d3748;"><%= study.title %></h6>
+
+                                    <p class="card-text small mb-0" style="color: #718096;">
+                                        <%= (study.description || '').length > 40
+                                            ? study.description.substring(0, 40) + '...'
+                                            : (study.description || '') %>
+                                    </p>
+
+                                    <small class="d-block mt-2" style="color: #a0aec0;">
+                                        생성일: <%= new Date(study.createdAt).toISOString().slice(0, 10) %>
+                                    </small>
+                                </div>
+
+                                <!-- Selected Day Only -->
+                                <div class="p-3 mt-auto pt-0">
+                                    <% if (study.day) { %>
+                                        <span class="study-day-badge">
+                                            <% if (study.day === 'mon') { %>월요일<% } %>
+                                            <% if (study.day === 'tue') { %>화요일<% } %>
+                                            <% if (study.day === 'wed') { %>수요일<% } %>
+                                            <% if (study.day === 'thu') { %>목요일<% } %>
+                                            <% if (study.day === 'fri') { %>금요일<% } %>
+                                            <% if (study.day === 'sat') { %>토요일<% } %>
+                                            <% if (study.day === 'sun') { %>일요일<% } %>
+                                        </span>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <div class="col-12">
+                <div class="text-center py-5" style="background: white; border-radius: 16px; border: 2px dashed rgba(102, 126, 234, 0.3);">
+                    <p style="color: #718096; font-size: 1.1rem; font-weight: 500; margin: 0;">내가 만든 스터디가 아직 없습니다.</p>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
