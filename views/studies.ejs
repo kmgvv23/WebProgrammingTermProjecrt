@@ -75,7 +75,7 @@
                             <% if (study.bookCoverUrl) { %>
                                 <img src="<%= study.bookCoverUrl %>"
                                      class="img-fluid h-100 w-100 position-absolute top-0 start-0"
-                                     style="object-fit: cover;"
+                                     style="object-fit: contain; background: #f7fafc;"
                                      alt="책 표지">
                             <% } else { %>
                                 <div class="d-flex align-items-center justify-content-center h-100 bg-light text-muted small">
