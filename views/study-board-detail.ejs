@@ -75,34 +75,37 @@
   }
 
   .comment-item {
-    background: white;
-    border: 2px solid rgba(102, 126, 234, 0.15);
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
   }
 
   .comment-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
+    padding: 0 0.5rem;
   }
 
   .comment-author {
     font-weight: 700;
-    color: #2d3748;
+    color: #ffffff;
+    font-size: 1.05rem;
   }
 
   .comment-time {
-    color: #a0aec0;
+    color: rgba(255, 255, 255, 0.8);
     font-size: 0.875rem;
   }
 
   .comment-content {
-    color: #4a5568;
-    line-height: 1.6;
+    background: white;
+    border: 2px solid rgba(102, 126, 234, 0.15);
+    border-radius: 12px;
+    padding: 1.25rem;
+    color: #2d3748;
+    line-height: 1.7;
     white-space: pre-line;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   }
 </style>
 
@@ -168,7 +171,7 @@
         </div>
       <% }); %>
     <% } else { %>
-      <div class="text-center p-4" style="background: rgba(102, 126, 234, 0.05); border-radius: 12px; color: #718096;">
+      <div class="text-center p-4" style="background: rgba(102, 126, 234, 0.1); border-radius: 12px; color: #4a5568; font-weight: 600;">
         아직 댓글이 없습니다. 첫 댓글을 남겨보세요!
       </div>
     <% } %>
