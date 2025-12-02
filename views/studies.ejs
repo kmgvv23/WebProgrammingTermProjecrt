@@ -1,12 +1,12 @@
 <%- include('partials/header') %>
 
 <!-- 상단 영역 -->
-<div class="mb-4 p-2 rounded-2">
-    <div class="d-flex align-items-end">
-        <h2 class="mb-0 me-3 d-flex align-items-center">
-            <img src="/images/search.png" alt="검색" class="icon-png">FIND STUDY
-        </h2> 
-        <p class="mb-0 text-secondary d-none d-md-block ms-1">
+<div class="mb-4 p-4 rounded-3" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); border: 1px solid rgba(102, 126, 234, 0.2);">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <h2 class="mb-0 d-flex align-items-center" style="color: #2d3748; font-weight: 700;">
+            <img src="/images/search.png" alt="검색" class="icon-png">스터디 찾기
+        </h2>
+        <p class="mb-0 d-none d-md-block" style="color: #4a5568; font-weight: 500; font-size: 1.05rem;">
             관심 있는 주제의 독서 모임에 참여해보세요
         </p>
     </div>
@@ -109,15 +109,19 @@
 
                             </div>
 
-                            <!-- 요일 뱃지 -->
-                            <div class="d-flex gap-1 p-3 mt-auto">
-                                <span class="badge rounded-pill text-bg-light border border-secondary-subtle <%= study.day === 'mon' ? 'border-dark text-light bg-dark' : '' %>">월</span>
-                                <span class="badge rounded-pill text-bg-light border border-secondary-subtle <%= study.day === 'tue' ? 'border-dark text-light bg-dark' : '' %>">화</span>
-                                <span class="badge rounded-pill text-bg-light border border-secondary-subtle <%= study.day === 'wed' ? 'border-dark text-light bg-dark' : '' %>">수</span>
-                                <span class="badge rounded-pill text-bg-light border border-secondary-subtle <%= study.day === 'thu' ? 'border-dark text-light bg-dark' : '' %>">목</span>
-                                <span class="badge rounded-pill text-bg-light border border-secondary-subtle <%= study.day === 'fri' ? 'border-dark text-light bg-dark' : '' %>">금</span>
-                                <span class="badge rounded-pill text-bg-light border border-secondary-subtle <%= study.day === 'sat' ? 'border-dark text-light bg-dark' : '' %>">토</span>
-                                <span class="badge rounded-pill text-bg-light border border-secondary-subtle <%= study.day === 'sun' ? 'border-dark text-light bg-dark' : '' %>">일</span>
+                            <!-- 선택한 요일만 표시 -->
+                            <div class="p-3 mt-auto">
+                                <% if (study.day) { %>
+                                    <span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; display: inline-block;">
+                                        <% if (study.day === 'mon') { %>월요일<% } %>
+                                        <% if (study.day === 'tue') { %>화요일<% } %>
+                                        <% if (study.day === 'wed') { %>수요일<% } %>
+                                        <% if (study.day === 'thu') { %>목요일<% } %>
+                                        <% if (study.day === 'fri') { %>금요일<% } %>
+                                        <% if (study.day === 'sat') { %>토요일<% } %>
+                                        <% if (study.day === 'sun') { %>일요일<% } %>
+                                    </span>
+                                <% } %>
                             </div>
 
                         </div> <!-- col-8 -->
