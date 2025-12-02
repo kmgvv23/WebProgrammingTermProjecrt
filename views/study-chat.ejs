@@ -262,7 +262,7 @@
     <div id="chat-box">
         <% if (messages && messages.length > 0) { %>
             <% messages.forEach(function(m) { %>
-                <% const isMyMessage = user && m.userId && String(m.userId) === String(user.id); %>
+                <% const isMyMessage = user && m.userId && m.userId == user.id; %>
                 <div class="chat-message <%= isMyMessage ? 'mine' : 'other' %>">
                     <div class="message-avatar">
                         <%= (m.nickname || '?')[0].toUpperCase() %>
@@ -348,7 +348,7 @@
 
         // 서버에서 온 메시지 표시
         socket.on('chatMessage', function(data) {
-            const isMyMessage = String(data.userId) === String(userId);
+            const isMyMessage = data.userId == userId;
             const messageDiv = document.createElement('div');
             messageDiv.className = 'chat-message ' + (isMyMessage ? 'mine' : 'other');
 
