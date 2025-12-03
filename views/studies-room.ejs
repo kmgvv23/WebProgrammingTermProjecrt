@@ -191,7 +191,7 @@
         <div class="col-lg-5">
             <div class="book-cover-container">
                 <% if (study.bookCoverUrl) { %>
-                    <img src="<%= study.bookCoverUrl %>" alt="책 표지">
+                    <img src="<%= study.bookCoverUrl %>" alt="책 표지" style="image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;">
                 <% } else { %>
                     <div class="bg-light border rounded d-flex align-items-center justify-content-center"
                          style="width:100%; height:450px;">

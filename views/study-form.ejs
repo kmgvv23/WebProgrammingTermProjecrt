@@ -66,7 +66,7 @@
                         
                         <div class="d-flex align-items-center">
                             <% if (bookCoverUrl) { %>
-                                <img src="<%= bookCoverUrl %>" style="width:64px;height:96px;object-fit:cover;margin-right:10px;">
+                                <img src="<%= bookCoverUrl %>" style="width:64px;height:96px;object-fit:cover;margin-right:10px;image-rendering:-webkit-optimize-contrast;image-rendering:crisp-edges;">
                             <% } %>
                             <div class="pe-4">
                                 <div class="fw-bold" style="display: -webkit-box; -line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
@@ -162,7 +162,7 @@
                 item.type = 'button'; 
                 item.className = 'list-group-item list-group-item-action d-flex align-items-center select-book-btn';
                 item.innerHTML = `
-                    <img src="${book.cover || ''}" alt="" style="width:40px;height:60px;object-fit:cover;margin-right:10px; flex-shrink:0;">
+                    <img src="${book.cover || ''}" alt="" style="width:40px;height:60px;object-fit:cover;margin-right:10px;flex-shrink:0;image-rendering:-webkit-optimize-contrast;image-rendering:crisp-edges;">
                     <div class="text-start overflow-hidden">
                         <div class="fw-bold" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${book.title}</div>
                         <div class="text-muted small text-truncate">${book.author || ''}</div>
@@ -180,7 +180,7 @@
                     previewEl.innerHTML = `
                         <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="선택 취소" onclick="clearBookSelection()"></button>
                         <div class="d-flex align-items-center">
-                            <img src="${book.cover || ''}" style="width:64px;height:96px;object-fit:cover;margin-right:10px;">
+                            <img src="${book.cover || ''}" style="width:64px;height:96px;object-fit:cover;margin-right:10px;image-rendering:-webkit-optimize-contrast;image-rendering:crisp-edges;">
                             <div class="pe-4">
                                 <div class="fw-bold" style="display: -webkit-box; -line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">${book.title}</div>
                                 <div class="text-muted small">${book.author || ''}</div>
