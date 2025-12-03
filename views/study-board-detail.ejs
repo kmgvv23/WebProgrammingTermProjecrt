@@ -28,12 +28,12 @@
     background: white;
     border: 2px solid rgba(102, 126, 234, 0.15);
     border-radius: 16px;
-    padding: 0.5rem 1rem 0.875rem;
+    padding: 0 1rem 0.875rem;
     margin-bottom: 2rem;
-    margin-top: -0.3rem;
+    margin-top: -0.5rem;
     white-space: pre-line;
     color: #2d3748;
-    line-height: 1.6;
+    line-height: 1.5;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   }
 
@@ -102,10 +102,10 @@
     background: white;
     border: 2px solid rgba(102, 126, 234, 0.15);
     border-radius: 12px;
-    padding: 0.4rem 0.875rem 0.625rem;
-    margin-top: -0.2rem;
+    padding: 0 0.875rem 0.625rem;
+    margin-top: -0.4rem;
     color: #2d3748;
-    line-height: 1.5;
+    line-height: 1.4;
     white-space: pre-line;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   }
@@ -121,9 +121,7 @@
     </p>
   </div>
 
-  <div class="post-content">
-<%= post.content.trim() %>
-  </div>
+  <div class="post-content"><%= post.content.trim() %></div>
 
   <div class="mb-4">
     <a href="/studies/<%= study.id %>/board" class="btn-nav-back me-2">
@@ -167,9 +165,7 @@
               </form>
             <% } %>
           </div>
-          <div class="comment-content">
-<%= c.content.trim() %>
-          </div>
+          <div class="comment-content"><%= c.content.trim() %></div>
         </div>
       <% }); %>
     <% } else { %>
