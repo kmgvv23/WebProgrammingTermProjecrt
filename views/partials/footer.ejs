@@ -12,5 +12,26 @@
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- 알라딘 이미지 화질 개선 스크립트 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 모든 이미지 태그를 찾아서 알라딘 URL이면 고해상도로 변경
+  document.querySelectorAll('img').forEach(function(img) {
+    let src = img.getAttribute('src');
+    if (src && src.includes('image.aladin.co.kr')) {
+      let newSrc = src
+        .replace('/coversum/', '/cover500/')
+        .replace(/\/cover(?!\d)/, '/cover500')
+        .replace(/\/cover\d+\//, '/cover500/');
+
+      if (src !== newSrc) {
+        img.setAttribute('src', newSrc);
+      }
+    }
+  });
+});
+</script>
+
 </body>
 </html>

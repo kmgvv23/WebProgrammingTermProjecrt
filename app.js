@@ -166,12 +166,25 @@ app.get('/search-books', async (req, res) => {
     const items = json.item || json.items || [];
     const rawList = Array.isArray(items) ? items : [items];
 
-    const books = rawList.map(it => ({
-      title: it.title || it.itemTitle || '',
-      author: it.author || it.authorInfo || '',
-      cover: it.coverLarge || it.cover || it.coverSmall || '',
-      isbn: it.isbn || ''
-    }));
+    const books = rawList.map(it => {
+      let coverUrl = it.coverLarge || it.cover || it.coverSmall || '';
+
+      // 알라딘 이미지 URL을 더 고해상도로 변경
+      if (coverUrl && coverUrl.includes('image.aladin.co.kr')) {
+        // coversum → cover500 (500px), cover → cover500
+        coverUrl = coverUrl.replace('/coversum/', '/cover500/');
+        coverUrl = coverUrl.replace('/cover/', '/cover500/');
+        // cover200 등도 cover500으로
+        coverUrl = coverUrl.replace(/\/cover\d+\//, '/cover500/');
+      }
+
+      return {
+        title: it.title || it.itemTitle || '',
+        author: it.author || it.authorInfo || '',
+        cover: coverUrl,
+        isbn: it.isbn || ''
+      };
+    });
 
     res.json({ books });
   } catch (err) {
