@@ -169,7 +169,7 @@ app.get('/search-books', async (req, res) => {
     const books = rawList.map(it => ({
       title: it.title || it.itemTitle || '',
       author: it.author || it.authorInfo || '',
-      cover: it.cover || it.coverLarge || it.coverSmall || '',
+      cover: it.coverLarge || it.cover || it.coverSmall || '',
       isbn: it.isbn || ''
     }));
 
