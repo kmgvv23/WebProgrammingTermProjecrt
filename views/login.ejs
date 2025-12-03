@@ -1,0 +1,466 @@
+<% const pageTitle = '로그인 / 회원가입'; %>
+<%- include('partials/header') %>
+
+<!-- Custom Login Page Styling -->
+<style>
+    /* Modern Login Page Design */
+    .login-wrapper {
+        min-height: calc(100vh - 200px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 0;
+    }
+
+    .login-card {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(20px);
+        border-radius: 24px;
+        box-shadow: 0 20px 60px rgba(102, 126, 234, 0.25);
+        overflow: hidden;
+        animation: slideInUp 0.8s ease-out;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .login-header {
+        text-align: center;
+        padding: 3rem 2rem 2rem;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+        position: relative;
+    }
+
+    .login-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .login-header h1 {
+        font-size: 2rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+    }
+
+    .login-subtitle {
+        color: #718096;
+        font-size: 0.95rem;
+        font-weight: 500;
+    }
+
+    .login-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 1.5rem;
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+
+    .login-icon svg {
+        width: 40px;
+        height: 40px;
+        fill: white;
+    }
+
+    .login-body {
+        padding: 2rem;
+    }
+
+    /* Modern Tab Styling */
+    .nav-tabs {
+        border: none;
+        background: #f7fafc;
+        border-radius: 16px;
+        padding: 0.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .nav-tabs .nav-link {
+        border: none;
+        border-radius: 12px;
+        color: #2d3748;
+        font-weight: 600;
+        padding: 1rem 2rem;
+        transition: all 0.3s ease;
+        position: relative;
+        background: rgba(102, 126, 234, 0.2);
+        border: 2px solid rgba(102, 126, 234, 0.4);
+    }
+
+    .nav-tabs .nav-link.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+        border: 2px solid transparent;
+    }
+
+    .nav-tabs .nav-link:hover:not(.active) {
+        background: rgba(102, 126, 234, 0.15);
+        color: #667eea;
+        border-color: #667eea;
+    }
+
+    /* Modern Form Styling */
+    .form-label {
+        font-weight: 600;
+        color: #2d3748;
+        margin-bottom: 0.75rem;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .form-control {
+        padding: 1rem 1.25rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: white;
+    }
+
+    .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .form-control::placeholder {
+        color: #cbd5e0;
+    }
+
+    /* Enhanced Button Styling */
+    .btn-login, .btn-register {
+        padding: 1rem 2rem;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+        border: none;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .btn-login {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        box-shadow: 0 8px 24px rgba(102, 126, 234, 0.35);
+    }
+
+    .btn-login:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(102, 126, 234, 0.45);
+    }
+
+    .btn-register {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        box-shadow: 0 8px 24px rgba(79, 172, 254, 0.35);
+    }
+
+    .btn-register:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 32px rgba(79, 172, 254, 0.45);
+    }
+
+    /* Alert Styling */
+    .alert {
+        border-radius: 12px;
+        border: none;
+        padding: 1rem 1.5rem;
+        margin-bottom: 2rem;
+        animation: slideDown 0.4s ease-out;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .alert-danger {
+        background: linear-gradient(135deg, rgba(245, 87, 108, 0.15) 0%, rgba(240, 147, 251, 0.15) 100%);
+        color: #c53030;
+        border-left: 4px solid #f5576c;
+    }
+
+    /* Input Icon Styling */
+    .input-group-text {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        color: white;
+        border-radius: 12px 0 0 12px;
+        padding: 0 1rem;
+    }
+
+    .input-group .form-control {
+        border-left: none;
+        border-radius: 0 12px 12px 0;
+    }
+
+    /* Loading Spinner */
+    .spinner-border-sm {
+        width: 1rem;
+        height: 1rem;
+        border-width: 2px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .login-card {
+            margin: 1rem;
+        }
+
+        .login-header h1 {
+            font-size: 1.75rem;
+        }
+
+        .nav-tabs .nav-link {
+            padding: 0.875rem 1.5rem;
+        }
+
+        .login-body {
+            padding: 1.5rem;
+        }
+    }
+</style>
+
+<div class="login-wrapper">
+    <div class="col-11 col-sm-10 col-md-8 col-lg-5 col-xl-4">
+        <div class="login-card">
+            <!-- Login Header -->
+            <div class="login-header">
+                <div class="login-icon">
+                    <svg viewBox="0 0 24 24" fill="white">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                </div>
+                <h1>BookSync</h1>
+                <p class="login-subtitle">온라인 독서 소모임에 오신 것을 환영합니다</p>
+            </div>
+
+            <div class="login-body">
+                <!-- Error Message Display -->
+                <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+                    <div class="alert alert-danger">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                        </svg>
+                        <span><%= errorMessage %></span>
+                    </div>
+                <% } %>
+
+                <!-- Tab Navigation -->
+                <ul class="nav nav-tabs nav-fill" id="authTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button
+                            class="nav-link <%= activeTab === 'register' ? '' : 'active' %>"
+                            id="login-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#login-panel"
+                            type="button"
+                            role="tab">
+                            로그인
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button
+                            class="nav-link <%= activeTab === 'register' ? 'active' : '' %>"
+                            id="register-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#register-panel"
+                            type="button"
+                            role="tab">
+                            회원가입
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Tab Content -->
+                <div class="tab-content" id="authTabContent">
+
+                    <!-- Login Form -->
+                    <div class="tab-pane fade <%= activeTab === 'register' ? '' : 'show active' %>"
+                         id="login-panel" role="tabpanel">
+                        <form id="loginForm" action="/auth/login" method="POST">
+                            <div class="mb-4">
+                                <label for="login-email" class="form-label">이메일</label>
+                                <input type="email"
+                                       class="form-control"
+                                       id="login-email"
+                                       name="email"
+                                       placeholder="your@email.com"
+                                       required
+                                       autocomplete="email">
+                            </div>
+                            <div class="mb-4">
+                                <label for="login-password" class="form-label">비밀번호</label>
+                                <input type="password"
+                                       class="form-control"
+                                       id="login-password"
+                                       name="password"
+                                       placeholder="최소 6자 이상"
+                                       required
+                                       autocomplete="current-password">
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-login">
+                                    로그인하기
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Register Form -->
+                    <div class="tab-pane fade <%= activeTab === 'register' ? 'show active' : '' %>"
+                         id="register-panel" role="tabpanel">
+                        <form id="signupForm" action="/auth/signup" method="POST">
+                            <div class="mb-4">
+                                <label for="register-username" class="form-label">닉네임</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="register-username"
+                                       name="nickname"
+                                       placeholder="사용하실 닉네임을 입력하세요"
+                                       required
+                                       autocomplete="username">
+                            </div>
+                            <div class="mb-4">
+                                <label for="register-email" class="form-label">이메일</label>
+                                <input type="email"
+                                       class="form-control"
+                                       id="register-email"
+                                       name="email"
+                                       placeholder="your@email.com"
+                                       required
+                                       autocomplete="email">
+                            </div>
+                            <div class="mb-4">
+                                <label for="register-password" class="form-label">비밀번호</label>
+                                <input type="password"
+                                       class="form-control"
+                                       id="register-password"
+                                       name="password"
+                                       placeholder="최소 6자 이상"
+                                       required
+                                       autocomplete="new-password">
+                                <div class="form-text mt-2" style="color: #718096; font-size: 0.875rem;">
+                                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 4px;">
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                                    </svg>
+                                    비밀번호는 최소 6자 이상이어야 합니다
+                                </div>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-register">
+                                    회원가입하기
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Enhanced Client-side Validation -->
+<script>
+    // Modern validation with better UX
+    function validatePassword(password) {
+        return password.trim().length >= 6;
+    }
+
+    function showError(input, message) {
+        input.classList.add('is-invalid');
+        input.focus();
+
+        // Create or update error message
+        let errorDiv = input.nextElementSibling;
+        if (!errorDiv || !errorDiv.classList.contains('invalid-feedback')) {
+            errorDiv = document.createElement('div');
+            errorDiv.className = 'invalid-feedback d-block';
+            input.parentNode.appendChild(errorDiv);
+        }
+        errorDiv.textContent = message;
+    }
+
+    function clearError(input) {
+        input.classList.remove('is-invalid');
+        const errorDiv = input.nextElementSibling;
+        if (errorDiv && errorDiv.classList.contains('invalid-feedback')) {
+            errorDiv.remove();
+        }
+    }
+
+    // Login form validation
+    document.getElementById('loginForm')?.addEventListener('submit', function(e) {
+        const passwordInput = this.querySelector('[name="password"]');
+        const password = passwordInput.value;
+
+        clearError(passwordInput);
+
+        if (!validatePassword(password)) {
+            e.preventDefault();
+            showError(passwordInput, '비밀번호는 최소 6자리 이상이어야 합니다.');
+        }
+    });
+
+    // Signup form validation
+    document.getElementById('signupForm')?.addEventListener('submit', function(e) {
+        const passwordInput = this.querySelector('[name="password"]');
+        const password = passwordInput.value;
+
+        clearError(passwordInput);
+
+        if (!validatePassword(password)) {
+            e.preventDefault();
+            showError(passwordInput, '비밀번호는 최소 6자리 이상이어야 합니다.');
+        }
+    });
+
+    // Clear errors on input
+    document.querySelectorAll('.form-control').forEach(input => {
+        input.addEventListener('input', function() {
+            clearError(this);
+        });
+    });
+
+    // Add animation class to form on load
+    document.addEventListener('DOMContentLoaded', function() {
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            form.style.animation = 'fadeIn 0.6s ease-out';
+        });
+    });
+</script>
+
+<%- include('partials/footer') %>
