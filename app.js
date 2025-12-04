@@ -86,13 +86,16 @@ app.get('/dashboard', requireLogin, async (req, res) => {
 
   try {
     const [myStudies] = await pool.query(`
-      SELECT 
+      SELECT
         s.id,
         s.title,
         s.description,
         s.max_members AS maxMembers,
         s.day,
-        s.created_at AS createdAt
+        s.created_at AS createdAt,
+        s.book_cover_url AS bookCoverUrl,
+        s.book_title AS bookTitle,
+        s.book_author AS bookAuthor
       FROM studies s
       JOIN study_members m ON s.id = m.study_id
       WHERE m.user_id = ?
